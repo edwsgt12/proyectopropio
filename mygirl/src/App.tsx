@@ -84,60 +84,88 @@ const FECHA_INICIO = new Date(2026, 1, 13, 15, 0, 0);
 
 function calcularDiferencia() {
   const ahora = new Date();
-  // Fecha de inicio: 13 de febrero de 2026
   const inicio = new Date(2026, 1, 13, 15, 0, 0); 
 
   let años = ahora.getFullYear() - inicio.getFullYear();
   let meses = ahora.getMonth() - inicio.getMonth();
   let dias = ahora.getDate() - inicio.getDate();
   let horas = ahora.getHours() - inicio.getHours();
+  let minutos = ahora.getMinutes() - inicio.getMinutes();
+  let segundos = ahora.getSeconds() - inicio.getSeconds();
 
-  // Ajuste de horas negativas
+  // Ajuste de segundos
+  if (segundos < 0) {
+    minutos--;
+    segundos += 60;
+  }
+
+  // Ajuste de minutos
+  if (minutos < 0) {
+    horas--;
+    minutos += 60;
+  }
+
+  // Ajuste de horas
   if (horas < 0) {
     dias--;
     horas += 24;
   }
 
-  // Ajuste de días negativos (cuando aún no llega el día 13 del mes actual)
+  // Ajuste de días
   if (dias < 0) {
     meses--;
-    // Obtenemos el último día del mes anterior para saber cuántos días sumarle
     const ultimoDiaMesPasado = new Date(ahora.getFullYear(), ahora.getMonth(), 0).getDate();
     dias += ultimoDiaMesPasado;
   }
 
-  // Ajuste de meses negativos
+  // Ajuste de meses
   if (meses < 0) {
     años--;
     meses += 12;
   }
 
-  return { años, meses, dias, horas };
+  return { años, meses, dias, horas, minutos, segundos };
 }
 
 const ContadorTiempo: React.FC<{ colorAcento: string }> = ({ colorAcento }) => {
   const [tiempo, setTiempo] = useState(calcularDiferencia);
+
   useEffect(() => {
-    const intervalo = setInterval(() => setTiempo(calcularDiferencia()), 60000);
+    // Actualizamos cada segundo ahora
+    const intervalo = setInterval(() => setTiempo(calcularDiferencia()), 1000);
     return () => clearInterval(intervalo);
   }, []);
+
   return (
-    <div className="countdown-grid">
-      <div className="countdown-card" style={{ borderColor: colorAcento, background: 'rgba(0,0,0,0.6)' }}>
-        <div className="countdown-number" style={{ color: colorAcento }}>{tiempo.años}</div>
-        <div className="countdown-label">Años</div>
+    <div className="countdown-grid" style={{ 
+      display: 'grid', 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', 
+      gap: '1rem' 
+    }}>
+      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
+        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.años}</div>
+        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Años</div>
       </div>
-      <div className="countdown-card" style={{ borderColor: colorAcento, background: 'rgba(0,0,0,0.6)' }}>
-        <div className="countdown-number" style={{ color: colorAcento }}>{tiempo.meses}</div>
-        <div className="countdown-label">Meses</div>
+      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
+        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.meses}</div>
+        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Meses</div>
       </div>
-      <div className="countdown-card" style={{ borderColor: colorAcento, background: 'rgba(0,0,0,0.6)' }}>
-        <div className="countdown-number" style={{ color: colorAcento }}>{tiempo.dias}</div>
-        <div className="countdown-label">Días</div>
+      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
+        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.dias}</div>
+        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Días</div>
       </div>
-      <div className="countdown-card" style={{ borderColor: colorAcento, background: 'rgba(0,0,0,0.6)' }}>
-        <div className="countdown-number" style={{ color: colorAcento }}>{tiempo.horas}</div>
-        <div className="countdown-label">Horas</div>
+      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
+        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.horas}</div>
+        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Horas</div>
+      </div>
+      {/* Nuevos campos de Minutos y Segundos */}
+      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
+        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.minutos}</div>
+        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Minutos</div>
+      </div>
+      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
+        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.segundos}</div>
+        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Segundos</div>
       </div>
     </div>
   );

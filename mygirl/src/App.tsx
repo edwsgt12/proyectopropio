@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-// --- Tipos para las cartas de personajes ---
+// --- Tipos ---
 interface CartaPersonaje {
   id: string;
   nombre: string;
@@ -8,83 +8,116 @@ interface CartaPersonaje {
   descripcion: string;
   fraseIconica: string;
   colorPrimario: string;
-  colorSecundario: string;
   colorAcento: string;
-  colorFondo: string;
 }
 
-// --- Tipos para los hitos de la línea del tiempo ---
 interface HitoHistoria {
   titulo: string;
   descripcion: string;
   icono: string;
   fecha: string;
-  imagenUrl: string; // Nueva propiedad para imágenes
+  imagenUrl: string;
 }
 
+// --- Datos de Personajes Expandidos ---
 const personajesData: CartaPersonaje[] = [
   {
     id: 'edward',
     nombre: 'Edward',
     imagenUrl: '/juntosh.jpeg', 
-    descripcion: 'El dueño de este corazón, el que hace brillar cada anillo de Saturno. Eres mi persona favorita en este universo, y siempre lo seras te amo mas que a nadie en el mundo my girl',
+    descripcion: 'El dueño de este corazón, el que hace brillar cada anillo de Saturno. Eres mi persona favorita en este universo, y siempre lo serás.',
     fraseIconica: '"Contigo, hasta el infinito sabe a poco."',
     colorPrimario: '#071e17',
-    colorSecundario: '#0a2a21',
     colorAcento: '#34d399',
-    colorFondo: '#071e17',
+  },
+  {
+    id: 'nagi',
+    nombre: 'Nagi Seishiro',
+    imagenUrl: '/nagi.jpg',
+    descripcion: 'Incluso para alguien que suele encontrar todo aburrido, estar con Sofia es la única cosa que me motiva a dar el 100%. Eres mi "tesoro" más preciado.',
+    fraseIconica: '"No es un fastidio si es por ti..."',
+    colorPrimario: '#1a1a1a',
+    colorAcento: '#ffffff',
   },
   {
     id: 'kuromi',
     nombre: 'Kuromi',
     imagenUrl: '/Kuromi.jpg',
-    descripcion: '¿Pensaste que Edward era todo seriedad? ¡Ja! Soy su lado rebelde. Aunque me haga la ruda, sé que este chico solo tiene ojos para Sofia. ¡Es un romántico irremediable y no puede ocultarlo!',
-    fraseIconica: '"Edward es un tonto por Sofia, ¡pero es NUESTRO tonto favorito!"',
+    descripcion: '¿Pensaste que Edward era todo seriedad? ¡Ja! Soy su lado rebelde. Aunque me haga la ruda, sé que este chico solo tiene ojos para Sofia.',
+    fraseIconica: '"¡Edward es un tonto por Sofia, pero es NUESTRO tonto favorito!"',
     colorPrimario: '#2d1b2e',
-    colorSecundario: '#1a0f1a',
     colorAcento: '#e91e63',
-    colorFondo: '#2d1b2e',
   },
   {
     id: 'pucca',
     nombre: 'Pucca',
     imagenUrl: 'pucca.jpg',
-    descripcion: '¡Garuuu! Digo... ¡Edward! Él es igual que yo: cuando se trata de Sofia, ¡no hay nada que lo detenga! Su amor es como un salto infinito, siempre buscando darle todo el cariño del mundo. ¡Sofia es su persona favorita en toda la aldea y más allá!',
+    descripcion: '¡Su amor es como un salto infinito! Siempre buscando darte todo el cariño del mundo. ¡Sofia es la persona favorita en toda la aldea y más allá!',
     fraseIconica: '"¡Un amor tan fuerte que hace temblar toda la galaxia!"',
     colorPrimario: '#ff3366',
-    colorSecundario: '#cc0022',
     colorAcento: '#ffcc00',
-    colorFondo: '#ff3366',
+  },
+  {
+    id: 'ray',
+    nombre: 'Ray',
+    imagenUrl: '/ray.jpg',
+    descripcion: 'Analizando las probabilidades, el amor de Edward por Sofia es la única constante lógica en este caos. Un vínculo inteligente y eterno.',
+    fraseIconica: '"He leído mil libros, pero vuestra historia es mi capítulo favorito."',
+    colorPrimario: '#1f2937',
+    colorAcento: '#60a5fa',
+  },
+  {
+    id: 'killua',
+    nombre: 'Killua Zoldyck',
+    imagenUrl: '/killua.jpg',
+    descripcion: 'Edward me recuerda a mí: protegería a su persona especial incluso contra todo un ejército. Sofia, tú eres su luz en la oscuridad.',
+    fraseIconica: '"Sofia, tú eres la luz que me permite seguir siendo yo mismo."',
+    colorPrimario: '#312e81',
+    colorAcento: '#a5b4fc',
+  },
+  {
+    id: 'violetta',
+    nombre: 'Violetta',
+    imagenUrl: '/violetta.jpg',
+    descripcion: 'A través de la música y la pasión, este amor encuentra su melodía perfecta. Cada nota escrita por Edward lleva el nombre de Sofia.',
+    fraseIconica: '"Nuestro amor es la canción que el mundo merece escuchar."',
+    colorPrimario: '#4c1d95',
+    colorAcento: '#ddd6fe',
   },
   {
     id: 'meliodas',
     nombre: 'Meliodas',
     imagenUrl: 'meliodas.jpg',
-    descripcion: '¡Sate sate sate! Parece que Edward encontró un tesoro más valioso que cualquier espada sagrada. Su amor por Sofia es como mi maldición: ¡eterno e inquebrantable! No importa cuántos enemigos aparezcan, él siempre regresará al lado de su princesa.',
+    descripcion: '¡Sate sate sate! Su amor por Sofia es como mi maldición: ¡eterno e inquebrantable! No importa cuántos enemigos aparezcan, él siempre regresará.',
     fraseIconica: '"¡Incluso si tuviera que enfrentar a los Diez Mandamientos, mi lealtad es solo para ella!"',
     colorPrimario: '#1a3c5e',
-    colorSecundario: '#0d2135',
     colorAcento: '#c9a03d',
-    colorFondo: '#1a3c5e',
+  },
+  {
+    id: 'ban',
+    nombre: 'Ban',
+    imagenUrl: '/ban.jpg',
+    descripcion: 'He bebido de la fuente de la inmortalidad, pero nada se compara con la fuerza de este sentimiento. Un amor que no puede morir.',
+    fraseIconica: '"¡Por un amor así, robaría el mismísimo cielo!"',
+    colorPrimario: '#7f1d1d',
+    colorAcento: '#f87171',
   },
   {
     id: 'manolo',
     nombre: 'Manolo Sánchez',
     imagenUrl: 'descarga (20).jpg',
-    descripcion: 'He tocado mil canciones, pero ninguna tan bella como la historia de Edward y Sofia. El amor que él siente es como una serenata eterna que brota del corazón; un amor tan valiente que no le teme ni al olvido. ¡Eres un verdadero romántico, amigo mío!',
-    fraseIconica: '"¡Que el mundo entero lo sepa: mi canción favorita siempre será el amor de Edward por Sofia!"',
+    descripcion: 'He tocado mil canciones, pero ninguna tan bella como esta. El amor que él siente es como una serenata eterna que brota del corazón.',
+    fraseIconica: '"¡Mi canción favorita siempre será el amor de Edward por Sofia!"',
     colorPrimario: '#5c3a21',
-    colorSecundario: '#3a2210',
     colorAcento: '#e8c4a0',
-    colorFondo: '#5c3a21',
   },
 ];
 
-const FECHA_INICIO = new Date(2026, 1, 13, 15, 0, 0);
-
+// --- Lógica del Contador ---
 function calcularDiferencia() {
   const ahora = new Date();
-  const inicio = new Date(2026, 1, 13, 15, 0, 0); 
+  // Fecha de inicio: 13 de febrero de 2026, 15:00:00
+  const inicio = new Date(2026, 1, 13, 15, 0, 0);
 
   let años = ahora.getFullYear() - inicio.getFullYear();
   let meses = ahora.getMonth() - inicio.getMonth();
@@ -111,11 +144,12 @@ function calcularDiferencia() {
     horas += 24;
   }
 
-  // Ajuste de días
+  // Ajuste de días (Aquí es donde se corregía el error del mes)
   if (dias < 0) {
     meses--;
-    const ultimoDiaMesPasado = new Date(ahora.getFullYear(), ahora.getMonth(), 0).getDate();
-    dias += ultimoDiaMesPasado;
+    // Calculamos los días que tenía el mes anterior
+    const fechaMesAnterior = new Date(ahora.getFullYear(), ahora.getMonth(), 0);
+    dias += fechaMesAnterior.getDate();
   }
 
   // Ajuste de meses
@@ -128,45 +162,65 @@ function calcularDiferencia() {
 }
 
 const ContadorTiempo: React.FC<{ colorAcento: string }> = ({ colorAcento }) => {
-  const [tiempo, setTiempo] = useState(calcularDiferencia);
+  const [tiempo, setTiempo] = useState(calcularDiferencia());
 
   useEffect(() => {
-    // Actualizamos cada segundo ahora
     const intervalo = setInterval(() => setTiempo(calcularDiferencia()), 1000);
     return () => clearInterval(intervalo);
   }, []);
 
+  const unidades = [
+    { label: 'Años', valor: tiempo.años },
+    { label: 'Meses', valor: tiempo.meses },
+    { label: 'Días', valor: tiempo.dias },
+    { label: 'Horas', valor: tiempo.horas },
+    { label: 'Min', valor: tiempo.minutos },
+    { label: 'Seg', valor: tiempo.segundos },
+  ];
+
   return (
-    <div className="countdown-grid" style={{ 
+    <div style={{ 
       display: 'grid', 
-      gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', 
-      gap: '1rem' 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', // Columnas más anchas
+      gap: '20px',
+      padding: '20px',
+      width: '100%',
+      maxWidth: '900px',
+      margin: '0 auto'
     }}>
-      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
-        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.años}</div>
-        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Años</div>
-      </div>
-      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
-        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.meses}</div>
-        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Meses</div>
-      </div>
-      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
-        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.dias}</div>
-        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Días</div>
-      </div>
-      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
-        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.horas}</div>
-        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Horas</div>
-      </div>
-      {/* Nuevos campos de Minutos y Segundos */}
-      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
-        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.minutos}</div>
-        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Minutos</div>
-      </div>
-      <div className="countdown-card" style={{ border: `1px solid ${colorAcento}`, background: 'rgba(0,0,0,0.6)', padding: '1rem', borderRadius: '15px', textAlign: 'center' }}>
-        <div className="countdown-number" style={{ color: colorAcento, fontSize: '2rem', fontWeight: 'bold' }}>{tiempo.segundos}</div>
-        <div className="countdown-label" style={{ color: 'white', fontSize: '0.8rem' }}>Segundos</div>
-      </div>
+      {unidades.map((u, i) => (
+        <div key={i} style={{ 
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.2) 100%)',
+          backdropFilter: 'blur(10px)',
+          border: `2px solid ${colorAcento}`, // Borde más grueso
+          borderRadius: '24px', // Esquinas más redondeadas y modernas
+          padding: '25px 15px',
+          textAlign: 'center',
+          boxShadow: `0 10px 30px -10px ${colorAcento}66, inset 0 0 15px ${colorAcento}22`,
+          transition: 'transform 0.3s ease'
+        }}>
+          <div style={{ 
+            color: 'white', // El número en blanco resalta más
+            fontSize: '3.5rem', // ¡Mucho más grande!
+            fontWeight: '900', 
+            lineHeight: '1',
+            marginBottom: '10px',
+            textShadow: `0 0 20px ${colorAcento}`, // Glow dinámico
+            fontFamily: 'Arial Black, sans-serif'
+          }}>
+            {String(u.valor).padStart(2, '0')} 
+          </div>
+          <div style={{ 
+            color: colorAcento, 
+            fontSize: '0.9rem', 
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            letterSpacing: '3px' // Espaciado elegante
+          }}>
+            {u.label}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

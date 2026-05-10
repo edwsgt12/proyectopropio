@@ -166,7 +166,11 @@ section {
   border-radius: 1rem;
   border: 1px solid rgba(52, 211, 153, 0.4);
   width: 100%;
-  max-width: 24rem;
+  max-width: 350px;
+}
+
+.timeline-card:hover {
+  transform: translateY(-5px);
 }
 
 .timeline-icon {

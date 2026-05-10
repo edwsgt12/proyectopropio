@@ -84,15 +84,34 @@ const FECHA_INICIO = new Date(2026, 1, 13, 15, 0, 0);
 
 function calcularDiferencia() {
   const ahora = new Date();
-  let diffMs = ahora.getTime() - FECHA_INICIO.getTime();
-  if (diffMs < 0) diffMs = 0;
-  const totalHoras = Math.floor(diffMs / (1000 * 60 * 60));
-  const totalDias = Math.floor(totalHoras / 24);
-  const años = Math.floor(totalDias / 365.25);
-  let diasRestantes = totalDias - Math.floor(años * 365.25);
-  const meses = Math.floor(diasRestantes / 30.44);
-  const dias = Math.floor(diasRestantes - meses * 30.44);
-  const horas = totalHoras % 24;
+  // Fecha de inicio: 13 de febrero de 2026
+  const inicio = new Date(2026, 1, 13, 15, 0, 0); 
+
+  let años = ahora.getFullYear() - inicio.getFullYear();
+  let meses = ahora.getMonth() - inicio.getMonth();
+  let dias = ahora.getDate() - inicio.getDate();
+  let horas = ahora.getHours() - inicio.getHours();
+
+  // Ajuste de horas negativas
+  if (horas < 0) {
+    dias--;
+    horas += 24;
+  }
+
+  // Ajuste de días negativos (cuando aún no llega el día 13 del mes actual)
+  if (dias < 0) {
+    meses--;
+    // Obtenemos el último día del mes anterior para saber cuántos días sumarle
+    const ultimoDiaMesPasado = new Date(ahora.getFullYear(), ahora.getMonth(), 0).getDate();
+    dias += ultimoDiaMesPasado;
+  }
+
+  // Ajuste de meses negativos
+  if (meses < 0) {
+    años--;
+    meses += 12;
+  }
+
   return { años, meses, dias, horas };
 }
 

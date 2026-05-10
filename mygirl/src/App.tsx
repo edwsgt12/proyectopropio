@@ -234,7 +234,7 @@ const TimelineHitos: React.FC<{ colorAcento: string }> = ({ colorAcento }) => {
           <div 
             style={{
               background: '#111', border: `2px solid ${colorAcento}`,
-              borderRadius: '20px', maxWidth: '500px', width: '100%',
+              borderRadius: '20px', maxWidth: '450px', width: '95%',
               overflow: 'hidden', position: 'relative',
               boxShadow: `0 0 30px ${colorAcento}44`
             }}
